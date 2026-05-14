@@ -67,10 +67,7 @@ function ContactPage() {
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
         {/* Left */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--brand)]">
-            [07] Contact
-          </p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
             Let's build something <br className="hidden sm:block" /> that runs itself.
           </h1>
           <p className="mt-5 max-w-md text-muted-foreground">
