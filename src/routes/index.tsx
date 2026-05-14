@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Zap, Workflow as WorkflowIcon, Sparkles, ShieldCheck } from "lucide-react";
+import { ArrowRight, GitBranch, BrainCircuit, Webhook, ShieldCheck } from "lucide-react";
 import { workflows, type Workflow } from "@/data/workflows";
 import { WorkflowDialog } from "@/components/WorkflowDialog";
 import { LogoMarquee } from "@/components/LogoMarquee";
@@ -31,19 +31,19 @@ const metrics = [
 
 const features = [
   {
-    icon: WorkflowIcon,
+    icon: GitBranch,
     title: "End-to-end n8n builds",
     desc: "From self-hosting to production-grade workflows with retries, logging and alerts.",
     logos: ["n8n"],
   },
   {
-    icon: Sparkles,
+    icon: BrainCircuit,
     title: "AI-powered logic",
     desc: "OpenAI & Gemini embedded into your processes — classification, drafting, scoring.",
     logos: ["OpenAI", "Gemini"],
   },
   {
-    icon: Zap,
+    icon: Webhook,
     title: "API & webhook integrations",
     desc: "Connect anything with a REST API. Stripe, Shopify, Notion, Airtable, custom systems.",
     logos: ["Stripe", "Notion", "Airtable", "Shopify"],

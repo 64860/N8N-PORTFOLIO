@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Workflow, Plug, Mail, Sparkles, ShoppingCart, Cog, ArrowRight, Check } from "lucide-react";
+import { GitBranch, Webhook, MailCheck, BrainCircuit, PackageCheck, SlidersHorizontal, ArrowRight, Check } from "lucide-react";
 import { BrandMark } from "@/components/BrandLogos";
 
 export const Route = createFileRoute("/services")({
@@ -18,42 +18,42 @@ export const Route = createFileRoute("/services")({
 
 const services = [
   {
-    icon: Workflow,
+    icon: GitBranch,
     title: "n8n Automation Setup",
     desc: "End-to-end n8n deployment, workflow design, and self-hosting on your infra.",
     bullets: ["Self-hosted or cloud", "Versioned workflows", "Logging & alerts"],
     logos: ["n8n", "Supabase"],
   },
   {
-    icon: Plug,
+    icon: Webhook,
     title: "API Integrations",
     desc: "Connect any REST or webhook API with retries, validation and error handling.",
     bullets: ["Auth & rate limits", "Idempotent writes", "Schema validation"],
     logos: ["Stripe", "Notion", "Airtable", "Webhooks"],
   },
   {
-    icon: Mail,
+    icon: MailCheck,
     title: "Google Workspace",
     desc: "Automate Gmail, Drive, Sheets and Calendar across your team.",
     bullets: ["Inbox triage", "Drive folder ops", "Sheets as a CRM"],
     logos: ["Gmail", "Google Sheets", "Google Drive"],
   },
   {
-    icon: Sparkles,
+    icon: BrainCircuit,
     title: "AI Workflows",
     desc: "Embed Gemini or OpenAI into your processes with structured outputs.",
     bullets: ["Lead scoring", "Auto-classification", "Drafted replies"],
     logos: ["OpenAI", "Gemini"],
   },
   {
-    icon: ShoppingCart,
+    icon: PackageCheck,
     title: "E-commerce Automation",
     desc: "Sync orders, inventory and notifications across Shopify and your stack.",
     bullets: ["Order sync", "Refund workflows", "Customer comms"],
     logos: ["Shopify", "Stripe"],
   },
   {
-    icon: Cog,
+    icon: SlidersHorizontal,
     title: "Custom Business Workflows",
     desc: "Tailored systems mapped to your exact internal operations.",
     bullets: ["Process discovery", "Custom dashboards", "Team handoffs"],
