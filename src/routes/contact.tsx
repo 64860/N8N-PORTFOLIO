@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Send } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 import gmail from "@/assets/contact/gmail.svg";
 import linkedin from "@/assets/contact/linkedin.svg";
 import github from "@/assets/contact/github-dark.svg";
@@ -29,22 +30,25 @@ const schema = z.object({
   name: z.string().trim().min(1, "Name required").max(100),
   email: z.string().trim().email("Valid email required").max(255),
   company: z.string().trim().max(120).optional(),
-  message: z.string().trim().min(1, "Tell me about your project").max(1000),
+  subject: z.string().trim().min(1, "Subject required").max(200),
+  message: z.string().trim().min(1, "Tell me about your project").max(2000),
 });
 
 const tiles = [
-  { label: "Email", value: "gathonjiadennis@g…", href: "mailto:gathonjiadennis@gmail.com", src: gmail },
+  { label: "Email", value: "gathonjiadennis@gmail.com", href: "mailto:gathonjiadennis@gmail.com", src: gmail },
   { label: "LinkedIn", value: "Dennis Gathonjia", href: "https://www.linkedin.com/in/dennis-gathonjia-b54a63252", src: linkedin },
   { label: "GitHub", value: "@64860", href: "https://github.com/64860", src: github },
   { label: "Upwork", value: "Hire on Upwork", href: "https://www.upwork.com/freelancers/~0119c08e78d3853c0d?mp_source=share", src: upwork },
 ];
 
 function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", company: "", subject: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [sending, setSending] = useState(false);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const result = schema.safeParse(form);
     if (!result.success) {
       const fe: Record<string, string> = {};
@@ -52,14 +56,52 @@ function ContactPage() {
       setErrors(fe);
       return;
     }
+
     setErrors({});
-    const subject = encodeURIComponent(`Project inquiry from ${result.data.name}`);
-    const body = encodeURIComponent(
-      `${result.data.message}\n\nCompany: ${result.data.company ?? "—"}\n— ${result.data.name} (${result.data.email})`
-    );
-    window.location.href = `mailto:gathonjiadennis@gmail.com?subject=${subject}&body=${body}`;
-    toast.success("Opening your email client…");
-    setForm({ name: "", email: "", company: "", message: "" });
+    setSending(true);
+
+    try {
+      const { name, email, company, subject, message } = result.data;
+
+      // 1. Save to Supabase database
+      const { error: dbError } = await supabase.from("contact_messages").insert({
+        name,
+        email,
+        company: company ?? "",
+        subject,
+        message,
+      });
+
+      if (dbError) throw new Error(dbError.message);
+
+      // 2. Send email via Vercel API endpoint
+      try {
+        await fetch("/api/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, company, subject, message }),
+        });
+      } catch {
+        // Email API failure is non-blocking — data is already saved
+        console.warn("Email notification failed, but message was saved.");
+      }
+
+      // 3. Also open Gmail compose as backup
+      const mailSubject = encodeURIComponent(`[Contact] ${subject}`);
+      const mailBody = encodeURIComponent(
+        `${message}\n\nCompany: ${company || "—"}\nSubject: ${subject}\n— ${name} (${email})`
+      );
+      window.open(`mailto:gathonjiadennis@gmail.com?subject=${mailSubject}&body=${mailBody}`, "_blank");
+
+      toast.success("Message saved! I'll get back to you within 24 hours.");
+      setForm({ name: "", email: "", company: "", subject: "", message: "" });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to send message.";
+      toast.error(message);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -103,7 +145,7 @@ function ContactPage() {
             <form onSubmit={onSubmit} className="space-y-5" noValidate>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <Label htmlFor="name" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Name</Label>
+                  <Label htmlFor="name" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Name *</Label>
                   <Input
                     id="name"
                     placeholder="Jane Doe"
@@ -114,7 +156,7 @@ function ContactPage() {
                   {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="email" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Email</Label>
+                  <Label htmlFor="email" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Email *</Label>
                   <Input
                     id="email"
                     type="email"
@@ -127,32 +169,57 @@ function ContactPage() {
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="company" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Company</Label>
-                <Input
-                  id="company"
-                  placeholder="Acme Inc."
-                  value={form.company}
-                  onChange={(e) => setForm({ ...form, company: e.target.value })}
-                  maxLength={120}
-                />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="company" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Company</Label>
+                  <Input
+                    id="company"
+                    placeholder="Acme Inc."
+                    value={form.company}
+                    onChange={(e) => setForm({ ...form, company: e.target.value })}
+                    maxLength={120}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="subject" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Subject *</Label>
+                  <Input
+                    id="subject"
+                    placeholder="e.g. n8n workflow inquiry"
+                    value={form.subject}
+                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                    maxLength={200}
+                  />
+                  {errors.subject && <p className="text-xs text-destructive">{errors.subject}</p>}
+                </div>
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="message" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Project details</Label>
+                <Label htmlFor="message" className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Project details *</Label>
                 <Textarea
                   id="message"
                   rows={6}
                   placeholder="What would you like to automate?"
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  maxLength={1000}
+                  maxLength={2000}
                 />
-                {errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
+                <div className="flex justify-between">
+                  {errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
+                  <p className="ml-auto text-xs text-muted-foreground">{form.message.length}/2000</p>
+                </div>
               </div>
 
-              <Button type="submit" size="lg" className="w-full gap-2">
-                Send Message <Send className="h-4 w-4" />
+              <Button type="submit" size="lg" className="w-full gap-2" disabled={sending}>
+                {sending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message <Send className="h-4 w-4" />
+                  </>
+                )}
               </Button>
             </form>
           </CardContent>

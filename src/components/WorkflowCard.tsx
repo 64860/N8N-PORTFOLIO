@@ -5,13 +5,13 @@ import { ArrowRight } from "lucide-react";
 import type { Workflow } from "@/data/workflows";
 import { BrandMark } from "@/components/BrandLogos";
 import placeholder from "@/assets/workflows/placeholder.svg";
+import { Link } from "@tanstack/react-router";
 
 type Props = {
   workflow: Workflow;
-  onView: (w: Workflow) => void;
 };
 
-export function WorkflowCard({ workflow, onView }: Props) {
+export function WorkflowCard({ workflow }: Props) {
   return (
     <Card className="group flex h-full flex-col overflow-hidden border-border p-0 transition-all hover:-translate-y-0.5 hover:shadow-md">
       {/* Image */}
@@ -49,14 +49,13 @@ export function WorkflowCard({ workflow, onView }: Props) {
         </div>
         <div className="mt-auto flex items-center justify-between border-t border-border pt-3">
           <span className="text-xs text-muted-foreground">{workflow.category}</span>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => onView(workflow)}
-            className="h-8 gap-1 px-2 text-sm text-[color:var(--brand)] hover:text-[color:var(--brand)]"
+          <Link
+            to="/workflows/$id"
+            params={{ id: workflow.id }}
+            className="inline-flex h-8 items-center gap-1 rounded-md px-2 text-sm text-[color:var(--brand)] transition-colors hover:bg-[color:var(--brand-soft)]"
           >
             Case study <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
+          </Link>
         </div>
       </div>
     </Card>

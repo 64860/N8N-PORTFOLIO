@@ -11,6 +11,8 @@ export type Workflow = {
   outcome: string;
   featured?: boolean;
   image?: string;
+  /** Rich HTML content for the detailed case study page */
+  caseStudy?: string;
 };
 
 export const workflows: Workflow[] = [

@@ -1,11 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, GitBranch, BrainCircuit, Webhook, ShieldCheck } from "lucide-react";
-import { workflows, type Workflow } from "@/data/workflows";
-import { WorkflowDialog } from "@/components/WorkflowDialog";
+import { workflows } from "@/data/workflows";
 import { LogoMarquee } from "@/components/LogoMarquee";
 import { BrandMark } from "@/components/BrandLogos";
 import workflowPlaceholder from "@/assets/workflows/placeholder.svg";
@@ -57,7 +55,6 @@ const features = [
 ];
 
 function Index() {
-  const [active, setActive] = useState<Workflow | null>(null);
   const featured = workflows.find((w) => w.featured) ?? workflows[0];
 
   return (
@@ -169,8 +166,10 @@ function Index() {
                     </div>
                   ))}
                 </div>
-                <Button onClick={() => setActive(featured)} className="mt-2">
-                  View case study <ArrowRight className="ml-1.5 h-4 w-4" />
+                <Button asChild className="mt-2">
+                  <Link to="/workflows/$id" params={{ id: featured.id }}>
+                    View case study <ArrowRight className="ml-1.5 h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
               <div className="relative hidden overflow-hidden border-l border-border bg-[color:var(--surface)] md:block">
@@ -220,8 +219,6 @@ function Index() {
           </div>
         </div>
       </section>
-
-      <WorkflowDialog workflow={active} onClose={() => setActive(null)} />
     </div>
   );
 }
