@@ -209,7 +209,7 @@ function Index() {
               <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "#534AB7" }}>Featured</p>
               <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#111111" }}>Recent build</h2>
             </div>
-            <Link to="/workflows" className="hidden text-sm font-medium sm:inline-flex" style={{ color: "#555555" }}>
+            <Link to="/workflows" className="inline-flex text-sm font-medium" style={{ color: "#555555" }}>
               All workflows →
             </Link>
           </div>
