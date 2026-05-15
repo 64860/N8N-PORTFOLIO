@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { GitBranch, Webhook, MailCheck, BrainCircuit, PackageCheck, SlidersHorizontal, ArrowRight, Check } from "lucide-react";
 import { BrandMark } from "@/components/BrandLogos";
@@ -74,36 +73,55 @@ function ServicesPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => (
-          <Card key={s.title} className="group border-border transition-all hover:-translate-y-0.5 hover:shadow-sm">
-            <CardContent className="space-y-4 p-6">
-              <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--brand-soft)] text-[color:var(--brand)]">
-                <s.icon className="h-5 w-5" />
-              </div>
-              <div className="space-y-1.5">
-                <h3 className="text-base font-semibold tracking-tight">{s.title}</h3>
-                <p className="text-sm text-muted-foreground">{s.desc}</p>
-              </div>
-              <ul className="space-y-1.5 pt-1">
-                {s.bullets.map((b) => (
-                  <li key={b} className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Check className="h-3.5 w-3.5 text-[color:var(--brand)]" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex flex-wrap items-center gap-1.5 border-t border-border pt-4">
-                {s.logos.map((name) => (
-                  <div
-                    key={name}
-                    title={name}
-                    className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-card"
-                  >
-                    <BrandMark name={name} className="h-3.5 w-3.5" />
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <div
+            key={s.title}
+            className="group relative rounded-r-xl bg-card px-5 py-4 transition-colors hover:bg-[color-mix(in_oklch,var(--brand-soft),white_85%)]"
+            style={{
+              borderLeft: "3px solid #534AB7",
+              borderRight: "0.5px solid var(--border)",
+              borderTop: "0.5px solid var(--border)",
+              borderBottom: "0.5px solid var(--border)",
+              borderTopRightRadius: "12px",
+              borderBottomRightRadius: "12px",
+              borderTopLeftRadius: "0",
+              borderBottomLeftRadius: "0",
+            }}
+          >
+            {/* Icon */}
+            <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[color-mix(in_oklch,#534AB7_10%,white)]">
+              <s.icon className="h-5 w-5" style={{ color: "#534AB7" }} />
+            </div>
+
+            {/* Title */}
+            <h3 className="text-base font-bold tracking-tight text-foreground">{s.title}</h3>
+
+            {/* Description */}
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+
+            {/* Bullets */}
+            <ul className="mt-3 space-y-1">
+              {s.bullets.map((b) => (
+                <li key={b} className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Check className="h-3.5 w-3.5 shrink-0" style={{ color: "#534AB7" }} />
+                  {b}
+                </li>
+              ))}
+            </ul>
+
+            {/* Pill tags — tools */}
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {s.logos.map((name) => (
+                <span
+                  key={name}
+                  className="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[10px] font-medium text-muted-foreground"
+                  style={{ backgroundColor: "color-mix(in oklch, #534AB7 5%, white)" }}
+                >
+                  <BrandMark name={name} className="h-3 w-3" />
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
 
