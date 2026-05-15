@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ArrowRight, GitBranch, BrainCircuit, Webhook, ShieldCheck } from "lucide-react";
 import { workflows } from "@/data/workflows";
 import { LogoMarquee } from "@/components/LogoMarquee";
@@ -136,58 +135,53 @@ function Index() {
       </section>
 
       {/* Featured workflow */}
-      <section className="border-y border-border bg-[color:var(--surface)]">
+      <section className="border-y border-neutral-200 bg-neutral-50">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <div className="mb-8 flex items-end justify-between">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Featured</p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Recent build</h2>
+              <p className="text-xs font-black uppercase tracking-wider text-emerald-600">Featured</p>
+              <h2 className="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">Recent build</h2>
             </div>
-            <Link to="/workflows" className="hidden text-sm text-muted-foreground hover:text-foreground sm:inline-flex">
+            <Link to="/workflows" className="hidden text-sm text-neutral-600 hover:text-neutral-900 sm:inline-flex">
               All workflows →
             </Link>
           </div>
 
-          <Card className="overflow-hidden border-border">
-            <CardContent className="grid gap-8 p-0 md:grid-cols-[1.2fr_1fr]">
-              <div className="space-y-4 p-8">
-                <div className="flex flex-wrap gap-1.5">
+          <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
+            <div className="grid md:grid-cols-[1.2fr_1fr]">
+              <div className="space-y-5 p-8">
+                <div className="flex flex-wrap gap-2">
                   {featured.tags.map((t) => (
-                    <Badge key={t} variant="secondary" className="font-normal">{t}</Badge>
+                    <span key={t} className="rounded border border-neutral-200 bg-neutral-50 px-2 py-1 text-[10px] font-semibold uppercase text-neutral-600">
+                      {t}
+                    </span>
                   ))}
                 </div>
-                <h3 className="text-2xl font-semibold tracking-tight">{featured.title}</h3>
-                <p className="text-muted-foreground">{featured.description}</p>
-                <div className="flex flex-wrap items-center gap-3 pt-2">
+                <h3 className="text-2xl font-bold text-neutral-900">{featured.title}</h3>
+                <p className="text-neutral-600">{featured.description}</p>
+                <div className="flex flex-wrap gap-2">
                   {featured.tools.map((t) => (
-                    <div key={t} className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1 text-xs text-muted-foreground">
+                    <span key={t} className="inline-flex items-center gap-1.5 rounded border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-xs font-semibold text-neutral-600">
                       <BrandMark name={t} className="h-3.5 w-3.5" />
                       {t}
-                    </div>
+                    </span>
                   ))}
                 </div>
-                <Button asChild className="mt-2">
+                <Button asChild className="mt-4">
                   <Link to="/workflows/$id" params={{ id: featured.id }}>
                     View case study <ArrowRight className="ml-1.5 h-4 w-4" />
                   </Link>
                 </Button>
               </div>
-              <div className="relative hidden overflow-hidden border-l border-border bg-[color:var(--surface)] md:block">
+              <div className="relative hidden overflow-hidden bg-neutral-50 md:block">
                 <img
                   src={featured.image ?? workflowPlaceholder}
                   alt={`${featured.title} preview`}
                   className="h-full w-full object-cover"
                 />
-                <div className="absolute bottom-3 left-3 flex -space-x-1.5">
-                  {featured.tools.slice(0, 5).map((t) => (
-                    <div key={t} className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card shadow-sm">
-                      <BrandMark name={t} className="h-4 w-4" />
-                    </div>
-                  ))}
-                </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
 
