@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { GitBranch, Webhook, MailCheck, BrainCircuit, PackageCheck, SlidersHorizontal, ArrowRight, Check } from "lucide-react";
 import { BrandMark } from "@/components/BrandLogos";
@@ -71,65 +72,44 @@ function ServicesPage() {
         </p>
       </header>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => (
-          <div
-            key={s.title}
-            className="flex flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm transition-all hover:shadow-md hover:border-neutral-300"
-          >
-            {/* Top Section — Icon */}
-            <div className="flex h-48 items-center justify-center bg-neutral-50">
-              <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-sm border border-neutral-100">
-                <s.icon className="h-10 w-10 text-slate-400" />
+          <Card key={s.title} className="group border-border transition-all hover:-translate-y-0.5 hover:shadow-sm">
+            <CardContent className="space-y-4 p-6">
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--brand-soft)] text-[color:var(--brand)]">
+                <s.icon className="h-5 w-5" />
               </div>
-            </div>
-
-            {/* Content */}
-            <div className="flex flex-1 flex-col p-6">
-              {/* Category pill */}
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-600">
-                Service
-              </span>
-
-              {/* Title */}
-              <h3 className="mt-4 text-xl font-bold text-neutral-900">{s.title}</h3>
-
-              {/* Description */}
-              <p className="mt-2 text-sm leading-relaxed text-neutral-600">{s.desc}</p>
-
-              {/* Bullets */}
-              <ul className="mt-4 space-y-2">
+              <div className="space-y-1.5">
+                <h3 className="text-base font-semibold tracking-tight">{s.title}</h3>
+                <p className="text-sm text-muted-foreground">{s.desc}</p>
+              </div>
+              <ul className="space-y-1.5 pt-1">
                 {s.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-2 text-sm text-neutral-600">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                  <li key={b} className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Check className="h-3.5 w-3.5 text-[color:var(--brand)]" />
                     {b}
                   </li>
                 ))}
               </ul>
-
-              {/* Spacer */}
-              <div className="flex-1" />
-
-              {/* Tool badges */}
-              <div className="mt-6 flex flex-wrap gap-2">
+              <div className="flex flex-wrap items-center gap-1.5 border-t border-border pt-4">
                 {s.logos.map((name) => (
-                  <span
+                  <div
                     key={name}
-                    className="inline-flex items-center gap-1 rounded border border-neutral-200 bg-neutral-50 px-2 py-1 text-[10px] font-semibold uppercase text-neutral-600"
+                    title={name}
+                    className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-card"
                   >
-                    <BrandMark name={name} className="h-3 w-3" />
-                    {name}
-                  </span>
+                    <BrandMark name={name} className="h-3.5 w-3.5" />
+                  </div>
                 ))}
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
-      <div className="mt-16 rounded-2xl border border-neutral-200 bg-neutral-50 px-8 py-10 text-center">
-        <h2 className="text-2xl font-bold text-neutral-900">Not sure which fits?</h2>
-        <p className="mx-auto mt-2 max-w-xl text-sm text-neutral-600">
+      <div className="mt-16 rounded-2xl border border-border bg-[color:var(--surface)] px-8 py-10 text-center">
+        <h2 className="text-2xl font-semibold tracking-tight">Not sure which fits?</h2>
+        <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
           Send a quick description of the workflow — I'll suggest the right scope.
         </p>
         <Button asChild className="mt-5">
