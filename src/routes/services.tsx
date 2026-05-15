@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { GitBranch, Webhook, MailCheck, BrainCircuit, PackageCheck, SlidersHorizontal, ArrowRight, Check } from "lucide-react";
-import { BrandMark } from "@/components/BrandLogos";
+import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -17,46 +16,151 @@ export const Route = createFileRoute("/services")({
 
 const services = [
   {
-    icon: GitBranch,
     title: "n8n Automation Setup",
-    desc: "End-to-end n8n deployment, workflow design, and self-hosting on your infra.",
-    bullets: ["Self-hosted or cloud", "Versioned workflows", "Logging & alerts"],
-    logos: ["n8n", "Supabase"],
+    desc: "End-to-end n8n deployment, workflow design, and self-hosting on your infrastructure.",
+    illustration: (
+      <svg viewBox="0 0 200 120" fill="none" className="h-full w-full max-w-[200px]">
+        {/* Waveform / flow lines */}
+        <path d="M10 90 Q 40 30, 70 60 T 130 40 T 190 80" stroke="#534AB7" strokeWidth="2" fill="none" strokeLinecap="round" />
+        <path d="M10 100 Q 40 50, 70 75 T 130 55 T 190 90" stroke="#534AB7" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.5" />
+        <circle cx="10" cy="90" r="3" fill="#534AB7" />
+        <circle cx="190" cy="80" r="3" fill="#534AB7" />
+        {/* Small nodes */}
+        <circle cx="70" cy="60" r="2.5" fill="#534AB7" opacity="0.6" />
+        <circle cx="130" cy="40" r="2.5" fill="#534AB7" opacity="0.6" />
+      </svg>
+    ),
   },
   {
-    icon: Webhook,
     title: "API Integrations",
     desc: "Connect any REST or webhook API with retries, validation and error handling.",
-    bullets: ["Auth & rate limits", "Idempotent writes", "Schema validation"],
-    logos: ["Stripe", "Notion", "Airtable", "Webhooks"],
+    illustration: (
+      <svg viewBox="0 0 200 120" fill="none" className="h-full w-full max-w-[200px]">
+        {/* Starburst / radial connections */}
+        <circle cx="100" cy="60" r="12" fill="#534AB7" />
+        <circle cx="100" cy="60" r="6" fill="white" />
+        {/* Radial lines */}
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => {
+          const rad = (angle * Math.PI) / 180;
+          const x2 = 100 + 35 * Math.cos(rad);
+          const y2 = 60 + 35 * Math.sin(rad);
+          return (
+            <line key={i} x1={100} y1={60} x2={x2} y2={y2} stroke="#534AB7" strokeWidth="1.5" strokeLinecap="round" opacity={0.4 + i * 0.06} />
+          );
+        })}
+        {/* Endpoint dots */}
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => {
+          const rad = (angle * Math.PI) / 180;
+          const cx = 100 + 35 * Math.cos(rad);
+          const cy = 60 + 35 * Math.sin(rad);
+          return <circle key={i} cx={cx} cy={cy} r="2.5" fill="#534AB7" opacity="0.7" />;
+        })}
+      </svg>
+    ),
   },
   {
-    icon: MailCheck,
     title: "Google Workspace",
     desc: "Automate Gmail, Drive, Sheets and Calendar across your team.",
-    bullets: ["Inbox triage", "Drive folder ops", "Sheets as a CRM"],
-    logos: ["Gmail", "Google Sheets", "Google Drive"],
+    illustration: (
+      <svg viewBox="0 0 200 120" fill="none" className="h-full w-full max-w-[200px]">
+        {/* Concentric circles */}
+        <circle cx="100" cy="60" r="48" stroke="#534AB7" strokeWidth="1.5" fill="none" opacity="0.25" />
+        <circle cx="100" cy="60" r="36" stroke="#534AB7" strokeWidth="1.5" fill="none" opacity="0.4" />
+        <circle cx="100" cy="60" r="24" stroke="#534AB7" strokeWidth="1.5" fill="none" opacity="0.55" />
+        <circle cx="100" cy="60" r="12" stroke="#534AB7" strokeWidth="1.5" fill="none" opacity="0.7" />
+        <circle cx="100" cy="60" r="4" fill="#534AB7" />
+        {/* Connect rings with small arcs */}
+        <path d="M100 36 A 24 24 0 0 1 124 60" stroke="#534AB7" strokeWidth="1.5" fill="none" opacity="0.5" />
+        <path d="M100 24 A 36 36 0 0 0 64 60" stroke="#534AB7" strokeWidth="1.5" fill="none" opacity="0.35" />
+      </svg>
+    ),
   },
   {
-    icon: BrainCircuit,
     title: "AI Workflows",
     desc: "Embed Gemini or OpenAI into your processes with structured outputs.",
-    bullets: ["Lead scoring", "Auto-classification", "Drafted replies"],
-    logos: ["OpenAI", "Gemini"],
+    illustration: (
+      <svg viewBox="0 0 200 120" fill="none" className="h-full w-full max-w-[200px]">
+        {/* Neural net node diagram */}
+        {/* Layer 1 (input) */}
+        <circle cx="40" cy="30" r="5" fill="#534AB7" />
+        <circle cx="40" cy="60" r="5" fill="#534AB7" />
+        <circle cx="40" cy="90" r="5" fill="#534AB7" />
+        {/* Layer 2 (hidden) */}
+        <circle cx="100" cy="20" r="5" fill="#534AB7" opacity="0.8" />
+        <circle cx="100" cy="45" r="5" fill="#534AB7" opacity="0.8" />
+        <circle cx="100" cy="75" r="5" fill="#534AB7" opacity="0.8" />
+        <circle cx="100" cy="100" r="5" fill="#534AB7" opacity="0.8" />
+        {/* Layer 3 (output) */}
+        <circle cx="160" cy="40" r="5" fill="#534AB7" />
+        <circle cx="160" cy="80" r="5" fill="#534AB7" />
+        {/* Connections L1->L2 */}
+        {[
+          [0,0],[0,1],[0,2],[0,3],
+          [1,0],[1,1],[1,2],[1,3],
+          [2,0],[2,1],[2,2],[2,3],
+        ].map(([l1, l2], i) => {
+          const y1 = [30, 60, 90][l1];
+          const y2 = [20, 45, 75, 100][l2];
+          return <line key={i} x1={45} y1={y1} x2={95} y2={y2} stroke="#534AB7" strokeWidth="0.7" opacity="0.3" />;
+        })}
+        {/* Connections L2->L3 */}
+        {[
+          [0,0],[0,1],[1,0],[1,1],[2,0],[2,1],[3,0],[3,1],
+        ].map(([l2, l3], i) => {
+          const y1 = [20, 45, 75, 100][l2];
+          const y2 = [40, 80][l3];
+          return <line key={`o${i}`} x1={105} y1={y1} x2={155} y2={y2} stroke="#534AB7" strokeWidth="0.7" opacity="0.3" />;
+        })}
+      </svg>
+    ),
   },
   {
-    icon: PackageCheck,
     title: "E-commerce Automation",
     desc: "Sync orders, inventory and notifications across Shopify and your stack.",
-    bullets: ["Order sync", "Refund workflows", "Customer comms"],
-    logos: ["Shopify", "Stripe"],
+    illustration: (
+      <svg viewBox="0 0 200 120" fill="none" className="h-full w-full max-w-[200px]">
+        {/* Grid / data table lines */}
+        <rect x="15" y="20" width="170" height="80" rx="4" stroke="#534AB7" strokeWidth="1.5" fill="none" />
+        {/* Header row */}
+        <line x1="15" y1="45" x2="185" y2="45" stroke="#534AB7" strokeWidth="1.5" />
+        {/* Divider */}
+        <line x1="15" y1="65" x2="185" y2="65" stroke="#534AB7" strokeWidth="1" opacity="0.3" />
+        <line x1="15" y1="83" x2="185" y2="83" stroke="#534AB7" strokeWidth="1" opacity="0.3" />
+        {/* Column dividers */}
+        <line x1="70" y1="20" x2="70" y2="100" stroke="#534AB7" strokeWidth="0.7" opacity="0.2" />
+        <line x1="130" y1="20" x2="130" y2="100" stroke="#534AB7" strokeWidth="0.7" opacity="0.2" />
+        {/* Sample data cells (filled) */}
+        <rect x="20" y="50" width="40" height="10" rx="2" fill="#534AB7" opacity="0.12" />
+        <rect x="75" y="50" width="50" height="10" rx="2" fill="#534AB7" opacity="0.12" />
+        <rect x="20" y="70" width="40" height="10" rx="2" fill="#534AB7" opacity="0.08" />
+        <rect x="75" y="70" width="50" height="10" rx="2" fill="#534AB7" opacity="0.08" />
+        {/* Header column glow */}
+        <rect x="20" y="26" width="40" height="4" rx="2" fill="#534AB7" opacity="0.5" />
+        <rect x="75" y="26" width="50" height="4" rx="2" fill="#534AB7" opacity="0.5" />
+      </svg>
+    ),
   },
   {
-    icon: SlidersHorizontal,
     title: "Custom Business Workflows",
     desc: "Tailored systems mapped to your exact internal operations.",
-    bullets: ["Process discovery", "Custom dashboards", "Team handoffs"],
-    logos: ["Sentry", "Grafana", "Slack"],
+    illustration: (
+      <svg viewBox="0 0 200 120" fill="none" className="h-full w-full max-w-[200px]">
+        {/* Interlocking shapes / Venn diagram */}
+        <g opacity="0.85">
+          {/* Left shape — rounded square with gear teeth */}
+          <rect x="25" y="35" width="60" height="50" rx="8" stroke="#534AB7" strokeWidth="1.5" fill="#534AB7" fillOpacity="0.06" />
+          {/* Inner detail */}
+          <circle cx="55" cy="60" r="12" stroke="#534AB7" strokeWidth="1.5" fill="none" opacity="0.5" />
+          <circle cx="55" cy="60" r="5" fill="#534AB7" opacity="0.4" />
+          {/* Right shape — diamond */}
+          <path d="M130 20 L170 60 L130 100 L90 60 Z" stroke="#534AB7" strokeWidth="1.5" fill="#534AB7" fillOpacity="0.06" />
+          <path d="M130 35 L155 60 L130 85 L105 60 Z" stroke="#534AB7" strokeWidth="1" fill="none" opacity="0.35" />
+          {/* Connection lines */}
+          <line x1="85" y1="50" x2="95" y2="45" stroke="#534AB7" strokeWidth="1.2" opacity="0.5" strokeDasharray="4 3" />
+          <line x1="85" y1="70" x2="95" y2="75" stroke="#534AB7" strokeWidth="1.2" opacity="0.5" strokeDasharray="4 3" />
+        </g>
+      </svg>
+    ),
   },
 ];
 
@@ -65,69 +169,41 @@ function ServicesPage() {
     <div className="mx-auto max-w-6xl px-4 py-20">
       <header className="mx-auto mb-14 max-w-2xl text-center">
         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Services</p>
-        <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">What I help teams ship</h1>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+          What I help teams ship
+        </h1>
         <p className="mt-3 text-muted-foreground">
           From a single workflow to a full automation backbone — picked, scoped and shipped.
         </p>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => (
           <div
             key={s.title}
-            className="group relative rounded-r-xl bg-card px-5 py-4 transition-colors hover:bg-[color-mix(in_oklch,var(--brand-soft),white_85%)]"
-            style={{
-              borderLeft: "3px solid #534AB7",
-              borderRight: "0.5px solid var(--border)",
-              borderTop: "0.5px solid var(--border)",
-              borderBottom: "0.5px solid var(--border)",
-              borderTopRightRadius: "12px",
-              borderBottomRightRadius: "12px",
-              borderTopLeftRadius: "0",
-              borderBottomLeftRadius: "0",
-            }}
+            className="flex flex-col overflow-hidden rounded-xl border border-[#E5E5E5] bg-white shadow-sm transition-all hover:shadow-md"
           >
-            {/* Icon */}
-            <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[color-mix(in_oklch,#534AB7_10%,white)]">
-              <s.icon className="h-5 w-5" style={{ color: "#534AB7" }} />
+            {/* Illustration area — tall, light gray bg */}
+            <div className="flex h-44 items-center justify-center bg-[#F5F5F5]">
+              {s.illustration}
             </div>
 
-            {/* Title */}
-            <h3 className="text-base font-bold tracking-tight text-foreground">{s.title}</h3>
-
-            {/* Description */}
-            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-
-            {/* Bullets */}
-            <ul className="mt-3 space-y-1">
-              {s.bullets.map((b) => (
-                <li key={b} className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Check className="h-3.5 w-3.5 shrink-0" style={{ color: "#534AB7" }} />
-                  {b}
-                </li>
-              ))}
-            </ul>
-
-            {/* Pill tags — tools */}
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {s.logos.map((name) => (
-                <span
-                  key={name}
-                  className="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[10px] font-medium text-muted-foreground"
-                  style={{ backgroundColor: "color-mix(in oklch, #534AB7 5%, white)" }}
-                >
-                  <BrandMark name={name} className="h-3 w-3" />
-                  {name}
-                </span>
-              ))}
+            {/* Content */}
+            <div className="flex flex-1 flex-col p-5">
+              <h3 className="text-lg font-bold tracking-tight text-neutral-900">
+                {s.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                {s.desc}
+              </p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-16 rounded-2xl border border-border bg-[color:var(--surface)] px-8 py-10 text-center">
-        <h2 className="text-2xl font-semibold tracking-tight">Not sure which fits?</h2>
-        <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
+      <div className="mt-16 rounded-2xl border border-[#E5E5E5] bg-[#F5F5F5] px-8 py-10 text-center">
+        <h2 className="text-2xl font-bold text-neutral-900">Not sure which fits?</h2>
+        <p className="mx-auto mt-2 max-w-xl text-sm text-neutral-600">
           Send a quick description of the workflow — I'll suggest the right scope.
         </p>
         <Button asChild className="mt-5">
