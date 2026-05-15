@@ -105,7 +105,7 @@ function ContactPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-20">
+    <div className="mx-auto max-w-6xl px-4 py-12">
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
         {/* Left */}
         <div>

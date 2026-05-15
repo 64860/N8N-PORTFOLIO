@@ -28,11 +28,11 @@ function WorkflowDetailPage() {
   // If there's rich HTML content, render the case-study version
   if (workflow.caseStudy) {
     return (
-      <article className="mx-auto max-w-4xl px-4 py-20">
+      <article className="mx-auto max-w-4xl px-4 py-8">
         {/* Back link */}
         <Link
           to="/workflows"
-          className="mb-8 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to workflows
@@ -40,7 +40,7 @@ function WorkflowDetailPage() {
 
         {/* Hero image */}
         {workflow.image && (
-          <div className="mb-8 overflow-hidden rounded-xl border border-border">
+          <div className="mb-6 overflow-hidden rounded-xl border border-border">
             <img
               src={workflow.image}
               alt={`${workflow.title} preview`}
@@ -109,7 +109,7 @@ function WorkflowDetailPage() {
 
   // Fallback: structured version (no rich-text content)
   return (
-    <article className="mx-auto max-w-4xl px-4 py-20">
+    <article className="mx-auto max-w-4xl px-4 py-10">
       <Link
         to="/workflows"
         className="mb-8 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
